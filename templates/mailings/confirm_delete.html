@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Удалить{% endblock %}
+{% block content %}
+    <h2>Подтвердите удаление: {{ object }}</h2>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-danger">Удалить</button>
+    </form>
+    <a href="{{ request.META.HTTP_REFERER }}" class="btn btn-secondary">Отмена</a>
+{% endblock %}

@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+{% block title %}{{ object.full_name }}{% endblock %}
+{% block content %}
+    <h2>Получатель: {{ object.full_name }}</h2>
+    <p>Email: {{ object.email }}</p>
+    <p>Комментарий: {{ object.comment|linebreaks }}</p>
+    <p>Создано: {{ object.created_at }}</p>
+    <a href="{% url 'recipients_list' %}" class="btn btn-secondary">Назад</a>
+{% endblock %}
