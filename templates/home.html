@@ -1,0 +1,10 @@
+{% extends 'base.html' %}
+{% block title %}Главная{% endblock %}
+{% block content %}
+    <h1>Добро пожаловать в сервис рассылок!</h1>
+    {% if user.is_authenticated %}
+        <p>Вы вошли как {{ user.email }}. Перейдите в разделы для управления.</p>
+    {% else %}
+        <p>Пожалуйста, войдите или зарегистрируйтесь.</p>
+    {% endif %}
+{% endblock %}

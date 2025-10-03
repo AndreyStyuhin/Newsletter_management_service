@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Рассылка {{ object.id }}{% endblock %}
+{% block content %}
+    <h2>Рассылка {{ object.id }} ({{ object.get_status_display }})</h2>
+    <p>Начало: {{ object.start_at }}</p>
+    <p>Конец: {{ object.end_at }}</p>
+    <p>Сообщение: {{ object.message.subject }}</p>
+    <p>Получатели: {% for r in object.recipients.all %}{{ r.email }}, {% endfor %}</p>
+
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="btn btn-primary mb-3">Отправить рассылку</button>
+    </form>
+
+    <h3>Попытки отправки</h3>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Получатель</th>
+                <th>Статус</th>
+                <th>Дата</th>
+                <th>Ответ</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for attempt in attempts %}
+                <tr>
+                    <td>{{ attempt.id }}</td>
+                    <td>{{ attempt.recipient.email }}</td>
+                    <td>{{ attempt.get_status_display }}</td>
+                    <td>{{ attempt.attempted_at }}</td>
+                    <td>{{ attempt.response }}</td>
+                </tr>
+            {% empty %}
+                <tr><td colspan="5">Нет попыток.</td></tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <a href="{% url 'mailings_list' %}" class="btn btn-secondary">Назад</a>
+{% endblock %}
