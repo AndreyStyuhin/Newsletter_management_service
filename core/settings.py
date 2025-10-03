@@ -1,6 +1,8 @@
 import os
 import environ
 from pathlib import Path
+from django.views.decorators.cache import cache_page
+from django.utils.decorators import method_decorator
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -97,3 +99,21 @@ REST_FRAMEWORK = {
         "rest_framework_simplejwt.authentication.JWTAuthentication",
     ),
 }
+
+if DEBUG:
+    CACHES = {
+        "default": {
+            "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+            "LOCATION": "unique-snowflake",
+        }
+    }
+else:
+    CACHES = {
+        "default": {
+            "BACKEND": "django_redis.cache.RedisCache",
+            "LOCATION": env('REDIS_URL'),
+            "OPTIONS": {
+                "CLIENT_CLASS": "django_redis.client.DefaultClient",
+            }
+        }
+    }
